@@ -28,7 +28,7 @@ public class ProjectController {
                 + "name,"
                 + "description,"
                 + "createdAt,"
-                + "updatedAt,) VALUES (?, ?, ?, ?)";
+                + "updatedAt) VALUES (?, ?, ?, ?)";
         
         Connection conn = null;
         PreparedStatement statement = null;
