@@ -30,7 +30,7 @@ public class TaskController {
                 + "notes,"
                 + "deadline,"
                 + "createdAt,"
-                + "updatedAt,) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                + "updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         Connection conn = null;
         PreparedStatement statement = null;
         
