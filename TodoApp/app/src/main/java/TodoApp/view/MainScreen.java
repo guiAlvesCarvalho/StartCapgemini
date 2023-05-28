@@ -4,8 +4,15 @@
  */
 package TodoApp.view;
 
+import TodoApp.controller.ProjectController;
+import TodoApp.controller.TaskController;
+import TodoApp.model.Project;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.List;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -13,12 +20,17 @@ import java.awt.Font;
  */
 public class MainScreen extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainScreen
-     */
+    ProjectController projectController;
+    TaskController taskController;
+    
+    DefaultListModel projectModel;
+    
     public MainScreen() {
         initComponents();
         decorateTableTask();
+        
+        initDataController();
+        initComponentsModel();
     }
 
     /**
@@ -167,7 +179,7 @@ public class MainScreen extends javax.swing.JFrame {
             .addGroup(jPanelProjectsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelProjectsTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabelProjectsAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -220,11 +232,6 @@ public class MainScreen extends javax.swing.JFrame {
         jPanelProjectList.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jListProjects.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jListProjects.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jListProjects.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jListProjects.setFixedCellHeight(50);
         jListProjects.setSelectionBackground(new java.awt.Color(0, 153, 102));
@@ -297,7 +304,7 @@ public class MainScreen extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelTasks, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPaneTasks))
+                    .addComponent(jScrollPaneTasks, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -324,6 +331,13 @@ public class MainScreen extends javax.swing.JFrame {
         // TODO add your handling code here:
         ProjectDialogScreen projectDialogScreen = new ProjectDialogScreen(this, rootPaneCheckingEnabled);
         projectDialogScreen.setVisible(true);
+        
+        projectDialogScreen.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                loadProjects();
+            }
+        });
         
     }//GEN-LAST:event_jLabelProjectsAddMouseClicked
 
@@ -397,6 +411,30 @@ public class MainScreen extends javax.swing.JFrame {
         
         //Criando um sort automático para as colunas da table
         jTableTasks.setAutoCreateRowSorter(true);
+    }
+    
+    public void initDataController() {
+        projectController = new ProjectController();
+        taskController = new TaskController();
+    }
+    
+    public void initComponentsModel() {
+        projectModel = new DefaultListModel();
+        loadProjects();
+    }
+    
+    public void loadProjects(){
+        List<Project> projects = projectController.getAll();
+        
+        projectModel.clear();
+        
+        for (int i = 0; i < projects.size(); i++) {
+            Project project = projects.get(i);            
+            projectModel.addElement(project);
+        }
+        
+        jListProjects.setModel(projectModel);
+        
     }
     
 }
