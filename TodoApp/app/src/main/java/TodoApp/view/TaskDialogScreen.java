@@ -201,7 +201,9 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         // TODO add your handling code here:
         try {
             Task task = new Task();
-            task.setIdProject(1);
+            
+            task.setIdProject(project.getId());
+            
             task.setName(jTextFieldName.getText());
             task.setDescription(jTextAreaDescription.getText());
             task.setNotes(jTextAreaNotes.getText());
@@ -250,7 +252,7 @@ public class TaskDialogScreen extends javax.swing.JDialog {
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+            public void run(){
                 TaskDialogScreen dialog = new TaskDialogScreen(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
