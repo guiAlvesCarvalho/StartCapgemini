@@ -14,6 +14,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import util.ButtonColumnCellRenderer;
+import util.DeadlineTableColumnCellRenderer;
 import util.TaskTableModel;
 
 /**
@@ -30,10 +32,12 @@ public class MainScreen extends javax.swing.JFrame {
     
     public MainScreen() {
         initComponents();
-        decorateTableTask();
         
         initDataController();
         initComponentsModel();
+        
+        decorateTableTask();
+
     }
 
     /**
@@ -451,6 +455,17 @@ public class MainScreen extends javax.swing.JFrame {
         
         //Criando um sort automático para as colunas da table
         jTableTasks.setAutoCreateRowSorter(true);
+        
+        jTableTasks.getColumnModel().getColumn(2)
+                .setCellRenderer(new DeadlineTableColumnCellRenderer());
+        
+        jTableTasks.getColumnModel().getColumn(4)
+                .setCellRenderer(new ButtonColumnCellRenderer("edit"));
+        
+        jTableTasks.getColumnModel().getColumn(5)
+                .setCellRenderer(new ButtonColumnCellRenderer("delete"));
+        
+        
     }
     
     public void initDataController() {
