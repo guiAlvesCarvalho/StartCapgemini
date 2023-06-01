@@ -367,20 +367,29 @@ public class MainScreen extends javax.swing.JFrame {
         int columnIndex = jTableTasks.columnAtPoint(evt.getPoint());
         
         Task task = tasksModel.getTasks().get(rowIndex);
+        
+        int projectIndex = jListProjects.getSelectedIndex();
+        Project project = (Project) projectsModel.get(projectIndex);
 
         switch(columnIndex) {
             case 3:
                 taskController.update(task);
                 break;
             case 4:
+                int idToUpdate = task.getId();
+                taskController.removeById(idToUpdate);
                 
+                TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
+                taskDialogScreen.setProject(project);
+                taskDialogScreen.setVisible(true);
+                
+                loadTasks(project.getId());
+
                 break;
             case 5:
                 taskController.removeById(task.getId());
                 tasksModel.getTasks().remove(task);
                 
-                int projectIndex = jListProjects.getSelectedIndex();
-                Project project = (Project) projectsModel.get(projectIndex);
                 loadTasks(project.getId());
                 break;
         }   

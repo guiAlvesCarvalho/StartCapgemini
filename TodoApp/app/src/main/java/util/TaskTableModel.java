@@ -87,8 +87,5 @@ public class TaskTableModel extends AbstractTableModel{
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
-    }
-    
-    
-    
+    }    
 }
